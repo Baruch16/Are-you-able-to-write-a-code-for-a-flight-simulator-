@@ -115,6 +115,7 @@
       SIM.scenery.update(cam, 1e9, true);
       $('loading').style.display = 'none';
       SIM.audio.init();
+      SIM.music.setTheme('flight');
       UI.closeMenus();
       MAIN.paused = false; MAIN.started = true;
       UI.toast(lesson.title.replace(/^\d\.\s*/, ''));
@@ -217,7 +218,9 @@
       SIM.env.timeOfDay = (SIM.env.timeOfDay + simDt / 3600) % 24;
       if (!MAIN.wasOnGround && ac.onGround && !ac.crashed) {
         const vs = Math.round(-ac.vel.y * U.MS2FPM);
+        ac._tdVS = vs;
         ac.events.push('touchdown');
+        if (MAIN.simTime > 3 && vs < 350 && SIM.music) setTimeout(() => { if (!ac.crashed) SIM.music.stinger('landing'); }, 600);
         if (MAIN.simTime > 3) UI.toast(`Touchdown: ${vs} ft/min — ${vs < 150 ? 'a greaser!' : vs < 300 ? 'good landing' : vs < 500 ? 'firm' : 'HARD'}`, 5000);
       }
       MAIN.wasOnGround = ac.onGround;
@@ -378,7 +381,15 @@
   UI.toggleHelp = function () { const h = $('help'); h.style.display = h.style.display === 'flex' ? 'none' : 'flex'; };
   UI.toggleInstructor = function () { UI.instructorOn = !UI.instructorOn; updateInstructorPanel(true); };
   UI.restart = function () { UI.closeMenus(); MAIN.begin(MAIN.startKey, MAIN.lesson); };
-  UI.mainMenu = function () { UI.closeMenus(); MAIN.paused = true; $('menu').style.display = 'flex'; UI.menuOpen = true; };
+  UI.mainMenu = function () { UI.closeMenus(); MAIN.paused = true; $('menu').style.display = 'flex'; UI.menuOpen = true; SIM.music.setTheme('menu'); };
+  UI.cycleMusic = function () {
+    const modes = ['adaptive', 'calm', 'off'];
+    const m = modes[(modes.indexOf(SIM.music.mode) + 1) % modes.length];
+    SIM.music.setMode(m);
+    if (m !== 'off') SIM.music.setTheme(MAIN.started && !$('menu').style.display.includes('flex') ? 'flight' : 'menu');
+    const sel = $('sMusicMode'); if (sel) sel.value = m;
+    UI.toast('Music: ' + { adaptive: 'adaptive soundtrack', calm: 'calm', off: 'off' }[m] + ' (U)');
+  };
   UI.cycleTimeScale = function () {
     const opts = [1, 2, 4, 0.5];
     MAIN.timeScale = opts[(opts.indexOf(MAIN.timeScale) + 1) % opts.length];
@@ -405,13 +416,37 @@
     else SIM.env.timeOfDay = +tod;
     const d = new Date(); SIM.env.dayOfYear = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 864e5);
     SIM.audio.callouts = $('sCallouts').checked;
+    readAudioSettings();
     SIM.input.invertPitch = $('sInvert').checked;
     SIM.input.joyThrottleInvert = !$('sThrInv').checked;
     const q = $('sQuality').value;
     renderer.setPixelRatio(q === 'high' ? Math.min(devicePixelRatio, 2) : q === 'low' ? 0.75 : Math.min(devicePixelRatio, 1.25));
   }
 
+  function readAudioSettings() {
+    const A = SIM.audio;
+    A.vol.master = +$('sVolMaster').value / 100;
+    A.vol.sfx = +$('sVolSfx').value / 100;
+    A.vol.music = +$('sVolMusic').value / 100;
+    A.breathing = $('sBreath').checked;
+    SIM.music.setMode($('sMusicMode').value);
+    A.applyVolumes();
+  }
+
   function buildMenu() {
+    // audio settings apply live
+    ['sVolMaster', 'sVolSfx', 'sVolMusic', 'sBreath', 'sMusicMode'].forEach((id) => $(id).addEventListener('input', () => {
+      readAudioSettings();
+      if (SIM.music.mode !== 'off' && !MAIN.started) SIM.music.setTheme('menu');
+      if (SIM.music.mode === 'off') SIM.music.setTheme(null);
+    }));
+    // browsers only allow sound after the first click / key press
+    const unlock = () => {
+      SIM.audio.init(); readAudioSettings();
+      if (!MAIN.started) SIM.music.setTheme('menu');
+      removeEventListener('pointerdown', unlock); removeEventListener('keydown', unlock);
+    };
+    addEventListener('pointerdown', unlock); addEventListener('keydown', unlock);
     const ls = $('lessonList');
     SIM.lessons.forEach((l) => {
       const b = document.createElement('button');

@@ -8,7 +8,7 @@ Every switch and instrument in the cockpit works, and **hovering the mouse over 
 
 1. Download the repository (green **Code** button → **Download ZIP**) and unzip it, or `git clone` it.
 2. Double-click **`index.html`**. It opens in your browser (Chrome, Edge or Firefox recommended).
-3. Pick a lesson (start with **1. Cockpit & Engine Start**) or a free-flight start position.
+3. Click anywhere once (browsers only allow sound after a click), then pick a lesson (start with **1. Cockpit & Engine Start**) or a free-flight start position.
 
 > If your browser refuses to open local files, run a tiny local server in the folder instead:
 > `python -m http.server 8000` and open http://localhost:8000
@@ -40,6 +40,16 @@ A joystick/HOTAS or gamepad is supported but not required — everything works w
 - 3 airfields: **Falcon Air Base** (military: 3 km runway, ILS, PAPI, approach lights, hardened aircraft shelters, hangars, tower, parked jets), **Meridian International** (ILS), and **Highland Field** (short strip in the hills).
 - Real sun position for your chosen time of day (dawn, day, sunset, night with stars and lights), clouds you can fly through, visibility/haze.
 
+**Sound & music (all synthesized live — no audio files)**
+- Engine: starter, light-off, turbine whine and roar that follow RPM; muffled inside the canopy, full-range in the outside view.
+- Airflow: wind that rises with speed, airbrake and gear-down turbulence, airframe buffet near the stall and at high Mach.
+- Ground: runway rumble, rhythmic concrete-joint thumps, tyre screech on touchdown (louder when you land hard), brake squeal.
+- Systems: hydraulic motors while gear / flaps / airbrake move, a "clunk" when they lock, switch clicks, caution chime, stall tone, gear horn, over-G warning, overspeed clacker, flare launches.
+- Pilot: oxygen-mask breathing (faster under G) and anti-G straining grunts; voice call-outs and "PULL UP".
+- Crash explosion and ejection-seat sequence.
+- **Original soundtrack**: a menu theme ("Kestrel Theme") and an **adaptive in-flight score** ("Open Sky") that stays calm while cruising and builds bass, arpeggios, melody and drums with speed, G, low-level flying and danger. Short stingers for a good landing and a crash.
+- Menu sliders for master / effects / music volume, soundtrack mode (adaptive / calm / off), and a breathing toggle. Press **U** in flight to cycle the music.
+
 **Learning**
 - Instructor lessons: (1) cockpit & engine start, (2) take-off & climb, (3) turns, climbs & stalls, (4) ILS approach & landing, (5) navigation to another airport, (6) free flight. Each step says **what** to do and **why**, and detects when you've done it.
 - Hover explanations for every control and instrument.
@@ -66,6 +76,7 @@ A joystick/HOTAS or gamepad is supported but not required — everything works w
 | Auto start-up | Ctrl+E |
 | Pause / menu | Esc |
 | Sim speed | K (1×, 2×, 4×, ½×) |
+| Music mode | U (adaptive / calm / off) |
 
 ## Files
 
@@ -87,7 +98,8 @@ js/panel.js       instrument and console drawing, clickable controls
 js/hud.js         head-up display
 js/info.js        explanations shown on hover
 js/input.js       keyboard, mouse, joystick, gamepad, head movement
-js/audio.js       synthesized engine, wind, warnings, call-outs
+js/audio.js       synthesized sound effects, mixer, call-outs
+js/music.js       generative soundtrack (sequencer, synth voices, reverb)
 js/lessons.js     instructor lessons
 js/main.js        main loop and user interface
 ```

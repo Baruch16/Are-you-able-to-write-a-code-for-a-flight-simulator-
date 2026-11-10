@@ -51,6 +51,12 @@
         <label>Turbulence (%) <input id="sTurb" type="number" value="15" min="0" max="100"></label>
         <label>QNH (hPa) <input id="sQnh" type="number" value="1013" min="960" max="1050"></label>
         <label>Temperature vs ISA (°C) <input id="sTemp" type="number" value="0" min="-30" max="30"></label>
+        <h2>Sound &amp; music</h2>
+        <label>Master volume <input id="sVolMaster" type="range" min="0" max="100" value="80"></label>
+        <label>Effects <input id="sVolSfx" type="range" min="0" max="100" value="80"></label>
+        <label>Music <input id="sVolMusic" type="range" min="0" max="100" value="50"></label>
+        <label>Soundtrack <select id="sMusicMode"><option value="adaptive" selected>Adaptive (follows the action)</option><option value="calm">Calm</option><option value="off">Off</option></select></label>
+        <label class="chk"><input id="sBreath" type="checkbox" checked> Pilot breathing (oxygen mask)</label>
         <h2>Options</h2>
         <label>Graphics <select id="sQuality"><option value="low">Low (fast)</option><option value="med" selected>Medium</option><option value="high">High (sharp)</option></select></label>
         <label class="chk"><input id="sCallouts" type="checkbox" checked> Voice call-outs (altitude, "pull up")</label>
@@ -58,7 +64,7 @@
         <label class="chk"><input id="sThrInv" type="checkbox"> Joystick throttle axis reversed</label>
       </div>
     </div>
-    <div class="foot">Tip: a joystick or gamepad is recommended but not required. Everything works with keyboard + mouse. Press <b>F1</b> in flight for keys.</div>
+    <div class="foot">Tip: a joystick or gamepad is recommended but not required. Everything works with keyboard + mouse. Press <b>F1</b> in flight for keys. Click anywhere to enable sound.</div>
   </div>
 </div>
 
@@ -113,7 +119,7 @@
         <p><b>Left-click</b> switches, buttons, knobs (left half = −, right half = +)</p>
         <p><b>Hover</b> over anything for an explanation</p>
         <h3>Simulator</h3>
-        <p><kbd>Esc</kbd> pause/menu · <kbd>I</kbd> instructor box · <kbd>H</kbd> HUD · <kbd>K</kbd> sim speed (1×, 2×, 4×, ½×) · <kbd>Ctrl+R</kbd> restart</p>
+        <p><kbd>Esc</kbd> pause/menu · <kbd>I</kbd> instructor box · <kbd>H</kbd> HUD · <kbd>K</kbd> sim speed (1×, 2×, 4×, ½×) · <kbd>U</kbd> music (adaptive / calm / off) · <kbd>Ctrl+R</kbd> restart</p>
         <h3>Joystick / gamepad</h3>
         <p>Flight stick: X/Y = roll/pitch, throttle axis, twist = rudder, trigger = brakes.</p>
         <p>Gamepad: left stick = stick, triggers = throttle, bumpers = rudder, right stick = look, A brake, B gear, X/Y flaps, D-pad trim/airbrake.</p>
@@ -145,6 +151,7 @@
 <script src="js/model.js"></script>
 <script src="js/scenery.js"></script>
 <script src="js/input.js"></script>
+<script src="js/music.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/lessons.js"></script>
 <script src="js/main.js"></script>

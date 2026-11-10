@@ -52,6 +52,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-f
 .col h2 { font-size: 15px; letter-spacing: 2px; text-transform: uppercase; color: #7fc4f0; margin: 14px 0 6px; font-weight: 600; }
 .settings label { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; margin: 6px 0; gap: 10px; }
 .settings label.chk { justify-content: flex-start; }
+.settings input[type=range] { width: 150px; accent-color: #5ab4ff; }
 .settings input[type=number], .settings select { width: 150px; background: #101a22; color: #e8eef3; border: 1px solid #36506a; border-radius: 4px; padding: 4px 6px; }
 .foot { text-align: center; color: #8ea3b3; margin-top: 18px; font-size: 13px; }
 .keys { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; font-size: 14px; }

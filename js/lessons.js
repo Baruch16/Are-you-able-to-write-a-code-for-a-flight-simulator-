@@ -105,7 +105,7 @@
     if (ok) L.holdT += dt; else L.holdT = 0;
     if (ok && L.holdT >= (st.hold || 0)) {
       L.doneT += dt;
-      if (L.doneT > 1.2 && L.step < ls.steps.length - 1) { L.step++; L.holdT = 0; L.doneT = 0; L.mem = {}; SIM.audio && SIM.audio.click(); }
+      if (L.doneT > 1.2 && L.step < ls.steps.length - 1) { L.step++; L.holdT = 0; L.doneT = 0; L.mem = {}; SIM.audio && SIM.audio.chime && SIM.audio.chime(); }
     } else L.doneT = 0;
   };
 

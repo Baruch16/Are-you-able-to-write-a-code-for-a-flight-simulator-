@@ -33,7 +33,7 @@
   };
 
   function onKey(e, down) {
-    if (SIM.ui && SIM.ui.menuOpen && e.code !== 'Escape') return;
+    if (SIM.ui && SIM.ui.menuOpen && e.code !== 'Escape') { if (e.code === 'KeyU' && down && !e.repeat && e.target.tagName !== 'INPUT') SIM.ui.cycleMusic(); return; }
     const code = e.code;
     const was = I.keys[code];
     I.keys[code] = down;
@@ -66,6 +66,7 @@
       case 'Home': ac.controls.throttle = 1; break;
       case 'End': ac.controls.throttle = 0; break;
       case 'KeyK': SIM.ui.cycleTimeScale(); break;
+      case 'KeyU': SIM.ui.cycleMusic(); break;
       default:
         if (VIEWS[code]) {
           const v = VIEWS[code]; I.view = 'cockpit';
