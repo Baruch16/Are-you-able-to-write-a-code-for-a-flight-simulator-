@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kestrel Flight Trainer</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<!-- in-flight overlays -->
+<div id="gfx"></div>
+<div id="cloudfx"></div>
+<div id="info"></div>
+<div id="toast"></div>
+<div id="tip"></div>
+<div id="instr"></div>
+<div id="loading">Loading…</div>
+
+<!-- ===================== MAIN MENU ===================== -->
+<div id="menu" class="overlay" style="display:flex">
+  <div class="mwrap">
+    <div class="brand">
+      <div class="logo">KESTREL <span>FLIGHT TRAINER</span></div>
+      <div class="sub">Advanced jet trainer simulator · real-scale world · real-time physics · learn by doing</div>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <h2>Lessons (with instructor)</h2>
+        <div id="lessonList"></div>
+      </div>
+      <div class="col">
+        <h2>Free flight — start position</h2>
+        <div id="startList"></div>
+        <h2>Learn</h2>
+        <button class="lesson" onclick="SIM.ui.openHandbook()"><b>📖 Pilot's Handbook</b><span>How a jet flies, every instrument, procedures, the landing pattern, ILS, emergencies.</span></button>
+        <button class="lesson" onclick="SIM.ui.toggleHelp()"><b>⌨ Controls</b><span>Keyboard, mouse, joystick &amp; gamepad.</span></button>
+      </div>
+      <div class="col settings">
+        <h2>Weather &amp; time</h2>
+        <label>Time of day <select id="sTime">
+          <option value="6.2">Dawn 06:12</option><option value="8.5">Morning 08:30</option><option value="10.5" selected>Late morning 10:30</option>
+          <option value="13">Midday 13:00</option><option value="16.5">Afternoon 16:30</option><option value="18.9">Sunset 18:55</option>
+          <option value="21">Night 21:00</option><option value="real">Real clock (your time)</option></select></label>
+        <label>Clouds <select id="sClouds"><option value="none">Clear</option><option value="few">Few</option><option value="scattered" selected>Scattered</option><option value="broken">Broken</option><option value="overcast">Overcast</option></select></label>
+        <label>Cloud base (ft) <input id="sBase" type="number" value="4500" step="500" min="1000" max="20000"></label>
+        <label>Visibility (km) <input id="sVis" type="number" value="45" min="2" max="120"></label>
+        <label>Wind from (°) <input id="sWindDir" type="number" value="260" min="0" max="359"></label>
+        <label>Wind speed (kt) <input id="sWindSpd" type="number" value="8" min="0" max="45"></label>
+        <label>Turbulence (%) <input id="sTurb" type="number" value="15" min="0" max="100"></label>
+        <label>QNH (hPa) <input id="sQnh" type="number" value="1013" min="960" max="1050"></label>
+        <label>Temperature vs ISA (°C) <input id="sTemp" type="number" value="0" min="-30" max="30"></label>
+        <h2>Options</h2>
+        <label>Graphics <select id="sQuality"><option value="low">Low (fast)</option><option value="med" selected>Medium</option><option value="high">High (sharp)</option></select></label>
+        <label class="chk"><input id="sCallouts" type="checkbox" checked> Voice call-outs (altitude, "pull up")</label>
+        <label class="chk"><input id="sInvert" type="checkbox"> Invert joystick pitch</label>
+        <label class="chk"><input id="sThrInv" type="checkbox"> Joystick throttle axis reversed</label>
+      </div>
+    </div>
+    <div class="foot">Tip: a joystick or gamepad is recommended but not required. Everything works with keyboard + mouse. Press <b>F1</b> in flight for keys.</div>
+  </div>
+</div>
+
+<!-- ===================== PAUSE ===================== -->
+<div id="pause" class="overlay">
+  <div class="box">
+    <h1>Paused</h1>
+    <button onclick="SIM.ui.togglePause()">Resume (Esc)</button>
+    <button onclick="SIM.ui.restart()">Restart this flight</button>
+    <button onclick="SIM.ui.toggleHelp()">Controls (F1)</button>
+    <button onclick="SIM.ui.openHandbook()">Pilot's Handbook</button>
+    <button onclick="SIM.ui.mainMenu()">Main menu</button>
+  </div>
+</div>
+
+<!-- ===================== CRASH ===================== -->
+<div id="crash" class="overlay">
+  <div class="box">
+    <h1 id="crashTitle">CRASH</h1>
+    <p id="crashMsg"></p>
+    <button onclick="SIM.ui.restart()">Try again (Ctrl+R)</button>
+    <button onclick="SIM.ui.mainMenu()">Main menu</button>
+  </div>
+</div>
+
+<!-- ===================== HELP ===================== -->
+<div id="help" class="overlay" onclick="if(event.target===this)SIM.ui.toggleHelp()">
+  <div class="box wide">
+    <h1>Controls</h1>
+    <div class="keys">
+      <div>
+        <h3>Flying</h3>
+        <p><kbd>↓</kbd>/<kbd>S</kbd> pull (nose up) · <kbd>↑</kbd>/<kbd>W</kbd> push (nose down)</p>
+        <p><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> roll · <kbd>Z</kbd><kbd>X</kbd> rudder / nose-wheel steering</p>
+        <p><kbd>Ctrl</kbd> + stick keys = fine (small) inputs</p>
+        <p><kbd>PgUp</kbd>/<kbd>PgDn</kbd> or <kbd>+</kbd>/<kbd>−</kbd> throttle · <kbd>Home</kbd> full · <kbd>End</kbd> idle</p>
+        <p><kbd>[</kbd> <kbd>]</kbd> pitch trim · <kbd>T</kbd> trim to current stick</p>
+        <p><kbd>M</kbd> mouse-flying mode (mouse = stick)</p>
+        <h3>Aircraft</h3>
+        <p><kbd>G</kbd> gear · <kbd>F</kbd> flaps down · <kbd>Shift+F</kbd> flaps up · <kbd>B</kbd> airbrake</p>
+        <p><kbd>Space</kbd> wheel brakes · <kbd>,</kbd> <kbd>.</kbd> left/right brake · <kbd>P</kbd> parking brake</p>
+        <p><kbd>L</kbd> landing light · <kbd>N</kbd> next NAV destination · <kbd>Q</kbd> flares</p>
+        <p><kbd>Ctrl+E</kbd> automatic engine start</p>
+      </div>
+      <div>
+        <h3>Looking around (your head)</h3>
+        <p><b>Right-drag</b> (or left-drag on the sky) to look anywhere — up, down to the panel, over your shoulder</p>
+        <p><kbd>Shift</kbd> + arrows: look · <b>Wheel</b>: zoom (or turn a knob under the mouse) · <b>Middle click</b>/<kbd>C</kbd>: centre</p>
+        <p><kbd>1</kbd> forward · <kbd>2</kbd> panel · <kbd>3</kbd> left console · <kbd>4</kbd> right console</p>
+        <p><kbd>5</kbd> left wing · <kbd>6</kbd> right wing · <kbd>7</kbd> look back · <kbd>0</kbd>/<kbd>F2</kbd> outside view</p>
+        <h3>Cockpit</h3>
+        <p><b>Left-click</b> switches, buttons, knobs (left half = −, right half = +)</p>
+        <p><b>Hover</b> over anything for an explanation</p>
+        <h3>Simulator</h3>
+        <p><kbd>Esc</kbd> pause/menu · <kbd>I</kbd> instructor box · <kbd>H</kbd> HUD · <kbd>K</kbd> sim speed (1×, 2×, 4×, ½×) · <kbd>Ctrl+R</kbd> restart</p>
+        <h3>Joystick / gamepad</h3>
+        <p>Flight stick: X/Y = roll/pitch, throttle axis, twist = rudder, trigger = brakes.</p>
+        <p>Gamepad: left stick = stick, triggers = throttle, bumpers = rudder, right stick = look, A brake, B gear, X/Y flaps, D-pad trim/airbrake.</p>
+      </div>
+    </div>
+    <button onclick="SIM.ui.toggleHelp()">Close</button>
+  </div>
+</div>
+
+<!-- ===================== HANDBOOK ===================== -->
+<div id="handbook" class="overlay" onclick="if(event.target===this){this.style.display='none'}">
+  <div class="box hb">
+    <iframe src="handbook.html" title="Pilot's handbook"></iframe>
+    <button onclick="document.getElementById('handbook').style.display='none'">Close handbook</button>
+  </div>
+</div>
+
+<script src="lib/three.min.js"></script>
+<script src="js/util.js"></script>
+<script src="js/world.js"></script>
+<script src="js/atmosphere.js"></script>
+<script src="js/aircraft.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/info.js"></script>
+<script src="js/terrain.js"></script>
+<script src="js/env.js"></script>
+<script src="js/panel.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/model.js"></script>
+<script src="js/scenery.js"></script>
+<script src="js/input.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/lessons.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

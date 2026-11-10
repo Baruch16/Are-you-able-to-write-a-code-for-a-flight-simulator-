@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kestrel Pilot's Handbook</title>
+<style>
+  body { font-family: Georgia, "Times New Roman", serif; max-width: 860px; margin: 0 auto; padding: 24px 28px 80px; color: #1d232a; line-height: 1.6; background: #fbfaf7; }
+  h1 { font-family: Arial, sans-serif; letter-spacing: 2px; border-bottom: 3px solid #1d232a; padding-bottom: 6px; }
+  h2 { font-family: Arial, sans-serif; margin-top: 42px; color: #123a5a; border-bottom: 1px solid #c9d2da; padding-bottom: 4px; }
+  h3 { font-family: Arial, sans-serif; color: #2a5a80; margin-bottom: 4px; }
+  nav { background: #eef2f5; padding: 10px 16px; border-radius: 6px; font-family: Arial, sans-serif; font-size: 14px; columns: 2; }
+  nav a { display: block; color: #1a4a72; text-decoration: none; padding: 2px 0; }
+  table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 14px; margin: 10px 0; }
+  th, td { border: 1px solid #c9d2da; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #e6edf3; }
+  .note { background: #fff6dc; border-left: 4px solid #e0a800; padding: 8px 12px; margin: 12px 0; font-size: 15px; }
+  .real { background: #e5f3ea; border-left: 4px solid #2d9a55; padding: 8px 12px; margin: 12px 0; font-size: 15px; }
+  .warn { background: #fde7e3; border-left: 4px solid #d23b22; padding: 8px 12px; margin: 12px 0; font-size: 15px; }
+  ol li, ul li { margin: 3px 0; }
+  code, kbd { font-family: Consolas, monospace; background: #e9edf0; padding: 0 4px; border-radius: 3px; }
+  svg { display: block; margin: 12px auto; max-width: 100%; }
+  .small { font-size: 13px; color: #555; }
+</style>
+</head>
+<body>
+<h1>KESTREL T.2 — PILOT'S HANDBOOK</h1>
+<p>This handbook explains <b>how a jet aircraft flies, what every instrument and switch does, why it matters, and how pilots actually use them</b>. It mirrors what student military and civil pilots learn in ground school. Read a section, then try it in the simulator.</p>
+<div class="warn"><b>Honest disclaimer:</b> a home simulator is an excellent way to learn concepts, procedures, instrument scanning and navigation — real flight schools use simulators for exactly that. It does <b>not</b> replace flight training with a certified instructor: real aircraft give physical sensations, have real failures, and real airspace has rules and radio procedures. Use this to arrive at flight school already understanding the "why".</div>
+
+<nav>
+  <a href="#aircraft">1. The aircraft</a>
+  <a href="#forces">2. The four forces</a>
+  <a href="#aoa">3. Angle of attack &amp; the stall</a>
+  <a href="#controls">4. Flight controls</a>
+  <a href="#speed">5. Airspeeds: IAS, TAS, Mach</a>
+  <a href="#instruments">6. Instruments &amp; the scan</a>
+  <a href="#hud">7. The HUD</a>
+  <a href="#engine">8. The jet engine</a>
+  <a href="#systems">9. Electrics, fuel, hydraulics</a>
+  <a href="#procedures">10. Normal procedures</a>
+  <a href="#pattern">11. The traffic pattern</a>
+  <a href="#ils">12. ILS approach</a>
+  <a href="#nav">13. Navigation</a>
+  <a href="#g">14. G-forces &amp; the body</a>
+  <a href="#emerg">15. Emergencies</a>
+  <a href="#world">16. The simulated world</a>
+  <a href="#limits">17. Limits &amp; numbers</a>
+  <a href="#practice">18. Practice plan</a>
+</nav>
+
+<h2 id="aircraft">1. The aircraft</h2>
+<p>The <b>Kestrel T.2</b> is a fictional advanced jet trainer, of the kind air forces use between basic propeller trainers and front-line fighters. Its numbers are typical of that class:</p>
+<table>
+<tr><th>Item</th><th>Value</th><th>Why it matters</th></tr>
+<tr><td>Mass</td><td>4,100 kg empty + up to 1,300 kg fuel</td><td>Heavier = higher stall speed, longer take-off.</td></tr>
+<tr><td>Wing</td><td>9.4 m span, 17 m² area</td><td>Small, thin wing: fast and agile, but needs high landing speeds.</td></tr>
+<tr><td>Engine</td><td>One turbofan, 25 kN (≈2.5 tonnes) static thrust</td><td>Thrust-to-weight ≈ 0.5: climbs at 6,000–9,000 ft/min.</td></tr>
+<tr><td>Speeds</td><td>Stall ≈118 kt clean / 100 kt full flap; approach 125–135 kt; max 560 kt</td><td>See section 17.</td></tr>
+<tr><td>G limits</td><td>+8 / −3 G</td><td>Structural limits; the airframe is damaged beyond them.</td></tr>
+</table>
+<p>You sit in the front seat of a tandem cockpit (an instructor would sit behind you, higher, to see over your head). In front of you: the HUD on the glareshield, the main instrument panel, the control stick between your knees, the throttle on the left console, and switches on the left and right consoles.</p>
+
+<h2 id="forces">2. The four forces</h2>
+<svg width="520" height="220" viewBox="0 0 520 220"><g font-family="Arial" font-size="14">
+<path d="M150 120 L330 105 L380 112 L330 125 L160 132 Z" fill="#9ea4a8" stroke="#333"/><path d="M220 118 L270 70 L290 70 L265 118 Z" fill="#7d8388" stroke="#333"/>
+<line x1="260" y1="110" x2="260" y2="20" stroke="#1a7f37" stroke-width="4" marker-end="url(#a)"/><text x="268" y="30" fill="#1a7f37">LIFT</text>
+<line x1="260" y1="125" x2="260" y2="205" stroke="#a33" stroke-width="4" marker-end="url(#a)"/><text x="268" y="205" fill="#a33">WEIGHT</text>
+<line x1="380" y1="113" x2="490" y2="113" stroke="#1957a5" stroke-width="4" marker-end="url(#a)"/><text x="420" y="104" fill="#1957a5">THRUST</text>
+<line x1="150" y1="122" x2="40" y2="122" stroke="#8a5a00" stroke-width="4" marker-end="url(#a)"/><text x="50" y="112" fill="#8a5a00">DRAG</text>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#333"/></marker></defs></g></svg>
+<ul>
+<li><b>Lift</b> = ½ · ρ · V² · S · C<sub>L</sub>. ρ is air density, V airspeed, S wing area, C<sub>L</sub> the lift coefficient which grows with angle of attack. <b>Double the speed → four times the lift.</b></li>
+<li><b>Weight</b> = mass × g. It decreases slowly as you burn fuel.</li>
+<li><b>Thrust</b> from the engine. Falls with altitude because the air is thinner.</li>
+<li><b>Drag</b> = parasite drag (shape, gear, flaps, airbrake: grows with V²) + induced drag (the cost of making lift: largest at LOW speed). That is why flying very slowly needs a lot of power — the "back side of the power curve".</li>
+</ul>
+<p><b>Steady flight</b> means the forces balance. In a level turn the lift must be <i>tilted</i> to pull you round the turn, so you must create more of it: load factor n = 1/cos(bank). At 60° bank you need 2× the lift → you feel 2 G.</p>
+<div class="real"><b>In the sim:</b> all of this is calculated 240 times per second from the real equations, with the real air density at your altitude (International Standard Atmosphere).</div>
+
+<h2 id="aoa">3. Angle of attack &amp; the stall</h2>
+<p><b>Angle of attack (AoA, α)</b> is the angle between the wing and the air flowing at it — <i>not</i> the angle between the aircraft and the horizon (that is <b>pitch</b>). You can be pitched 10° nose-up while descending: then AoA is large.</p>
+<p>More AoA → more lift, until the <b>critical angle</b> (≈15.5° clean, ≈13.5° with full flaps). Beyond it, the air can no longer follow the curved upper surface, it separates and lift collapses: the <b>stall</b>. A stall has nothing to do with the engine.</p>
+<ul>
+<li>The wing stalls at the <b>same AoA</b> at any speed, weight or G. That's why fighter and trainer pilots fly approaches by AoA (the AoA indexer: ▼ ● ▲).</li>
+<li>Stall <b>speed</b> rises with weight and with G: stall speed × √(load factor). In a 60° bank turn it is 41% higher!</li>
+<li>Symptoms in the sim: stall-warning tone at 13.5°, buffet (shaking), a wing drops, the nose falls.</li>
+</ul>
+<div class="warn"><b>Recovery:</b> 1) PUSH — reduce the angle of attack (stick forward), 2) ROLL wings level, 3) POWER — full throttle, 4) ease back to level flight without stalling again. Pulling back when the nose drops is the instinct that has killed many pilots.</div>
+
+<h2 id="controls">4. Flight controls</h2>
+<table>
+<tr><th>Control</th><th>Moves</th><th>Rotates the aircraft about</th><th>Keys</th></tr>
+<tr><td>Stick fore/aft</td><td>Elevators (tailplane)</td><td><b>Pitch</b> — nose up/down. Pull = up.</td><td>↓/S pull, ↑/W push</td></tr>
+<tr><td>Stick left/right</td><td>Ailerons (outer wing)</td><td><b>Roll</b> — bank. Release to stop rolling.</td><td>←/→, A/D</td></tr>
+<tr><td>Rudder pedals</td><td>Rudder (fin)</td><td><b>Yaw</b> — keeps the turn "balanced" (ball centred); steers the nose wheel on the ground.</td><td>Z/X</td></tr>
+<tr><td>Trim</td><td>Neutral point of the elevator</td><td>Holds a pitch attitude/speed without stick force.</td><td>[ ] or T</td></tr>
+<tr><td>Throttle</td><td>Engine power</td><td>Energy: climb or speed.</td><td>PgUp/PgDn, Home/End</td></tr>
+</table>
+<p><b>The golden rule: pitch + power = performance.</b> Choose an attitude (where the nose is on the horizon) and a power setting, and the aircraft settles at a predictable speed and climb rate. Pilots fly <i>attitudes</i>, then check instruments.</p>
+<p><b>How a turn works:</b> roll into the bank you want, centre the stick (the bank stays), then pull gently to keep the nose on the horizon. To roll out, roll the other way, then release the back pressure.</p>
+
+<h2 id="speed">5. Airspeeds: IAS, TAS, ground speed, Mach</h2>
+<ul>
+<li><b>IAS (indicated)</b> — what the airspeed indicator shows. It measures dynamic pressure, which is exactly what the wing "feels", so all limits (stall, flaps, gear) are IAS.</li>
+<li><b>TAS (true)</b> — your real speed through the air. In thinner air TAS &gt; IAS: about +2% per 1,000 ft. At 30,000 ft, 300 kt IAS ≈ 470 kt TAS.</li>
+<li><b>GS (ground speed)</b> = TAS ± wind. Shown on the moving map. A 30 kt headwind on approach means you cover the ground 30 kt slower.</li>
+<li><b>Mach</b> = TAS ÷ speed of sound. Above ≈ M0.78 drag rises steeply (shock waves).</li>
+</ul>
+
+<h2 id="instruments">6. Instruments &amp; the scan</h2>
+<p>The six main flight instruments are in a <b>"T"</b>: airspeed (left), attitude (centre), altitude (right); below: turn coordinator, HSI (heading), vertical speed. Hover over any of them in the sim for a detailed explanation.</p>
+<h3>Pneumatic vs gyroscopic</h3>
+<p>The <b>airspeed indicator, altimeter and VSI</b> are fed by the <b>pitot tube</b> (ram air) and <b>static ports</b> (still air pressure). They need no electricity. The <b>attitude indicator, HSI and turn coordinator</b> use <b>gyroscopes</b>: spinning wheels that keep their orientation in space. They need power and spin-up time; a red OFF flag means "don't believe me".</p>
+<h3>The instrument scan</h3>
+<p>The <b>attitude indicator is the master</b>. Look at it, glance at one other instrument, back to attitude, another, back… ("hub and spoke"). Example in a climb: ATTITUDE → airspeed → ATTITUDE → altimeter → ATTITUDE → heading…</p>
+<h3>The altimeter and QNH</h3>
+<p>The altimeter is a barometer: it converts pressure to height assuming standard pressure at sea level. Weather changes the real sea-level pressure (QNH), so you must set it in the window with the BARO knob. ~27 ft error per hPa. "High to low, look out below": flying from high to low pressure with an old setting, you are lower than the altimeter says.</p>
+<div class="note"><b>Try it:</b> start cold &amp; dark: the menu chooses a random QNH. Before setting it, your altimeter on the runway will be wrong by tens of feet.</div>
+<h3>The caution panel</h3>
+<p>Instead of watching every system, the aircraft tells you: an amber caption lights (GEN, HYD, FUEL LOW, PARK BRK…), MASTER CAUTION flashes and beeps. Read the caption, act, press MASTER CAUTION to reset.</p>
+
+<h2 id="hud">7. The Head-Up Display</h2>
+<p>The HUD projects symbols onto a glass in front of you, focused at infinity, so the symbols lie <b>on top of the real world</b>.</p>
+<ul>
+<li><b>Flight Path Marker</b> (circle with wings): the point the aircraft is actually moving toward. Put it on the runway touchdown point and you will hit that point. The single most useful symbol.</li>
+<li><b>Waterline "W"</b>: where the nose points. The vertical gap between W and FPM is the angle of attack (plus sideslip/wind effects).</li>
+<li><b>Pitch ladder</b>: solid lines above the horizon, dashed below, every 5°.</li>
+<li><b>−3 line</b> (gear down): if the FPM sits on it, you descend on a 3° glide path.</li>
+<li><b>Left box</b> airspeed, <b>right box</b> altitude, <b>R</b> radar height, α AoA, G load factor, M Mach.</li>
+<li><b>AoA bracket</b> (gear down): when the FPM is centred in the bracket you are at the correct approach AoA.</li>
+</ul>
+
+<h2 id="engine">8. The jet engine</h2>
+<p>A turbofan sucks air in, compresses it, burns fuel in it and expels the hot gas through a turbine (which drives the compressor and fan) and the nozzle. Key facts for pilots:</p>
+<ul>
+<li><b>Spool-up lag:</b> from idle to full power takes several seconds. At low speed close to the ground (approach, go-around) <b>anticipate</b>.</li>
+<li><b>N1</b> = fan RPM in %. Idle ≈ 54%, take-off 100%.</li>
+<li><b>EGT</b> = exhaust temperature, the engine's "fever thermometer" — watch it during the start.</li>
+<li>Thrust and fuel flow fall with altitude (thinner air). Jets are most fuel-efficient high up.</li>
+</ul>
+<h3>Start sequence (what happens and why)</h3>
+<ol>
+<li>BATTERY ON — power for the starter motor and the igniters.</li>
+<li>FUEL PUMP ON, ENGINE MASTER ON — fuel pressure to the engine.</li>
+<li>Throttle IDLE, press START — an electric motor spins the engine.</li>
+<li>~12% N1: fuel is sprayed in and the igniters fire: <b>light-off</b> (EGT jumps).</li>
+<li>The engine accelerates by itself; the starter disengages; stabilises at idle ≈54%.</li>
+<li>GENERATOR ON (now the engine makes the electricity), AVIONICS ON.</li>
+</ol>
+
+<h2 id="systems">9. Electrics, fuel, hydraulics</h2>
+<ul>
+<li><b>Electrical:</b> 24 V battery → bus; above ~45% N1 the generator supplies 28 V and recharges the battery. Lose the generator in flight → battery lasts a limited time → shed load and land.</li>
+<li><b>Fuel:</b> 1,300 kg internal. Full power at low level burns ≈2,000 kg/h; cruise up high much less. FUEL LOW at 180 kg. The boost pump is required high up (above ~20,000 ft in the sim) — without it the engine flames out.</li>
+<li><b>Hydraulics:</b> engine-driven pump at 3,000 psi → landing gear, flaps, airbrake, wheel brakes. No engine → no hydraulics (a small accumulator gives some braking).</li>
+<li><b>Pitot heat:</b> below 0 °C the pitot tube ices; airspeed then reads wrong (it drops toward zero in the sim). Always ON.</li>
+</ul>
+
+<h2 id="procedures">10. Normal procedures (checklists)</h2>
+<p>Pilots fly by <b>checklists</b>. Memory fails; checklists don't. The built-in lessons follow these.</p>
+<h3>Before take-off</h3>
+<ol><li>Flaps MID</li><li>Trim set (≈ neutral to slightly nose-up)</li><li>Seat ARMED, canopy closed</li><li>Pitot heat ON, lights ON</li><li>Cautions: none (except PARK BRK)</li><li>Altimeter set — on the runway it should read field elevation (≈ 395 ft at Falcon AB)</li></ol>
+<h3>Take-off</h3>
+<ol><li>Release parking brake, full power, check N1 ≈100%, EGT normal</li><li>Keep the centreline with small rudder (nose-wheel steering fades out above ~40 kt; then the rudder itself works)</li><li>130 kt: rotate smoothly to ≈10° pitch</li><li>Positive climb on the VSI → GEAR UP</li><li>Above 200 kt → FLAPS UP</li><li>Climb at ~300 kt</li></ol>
+<h3>Landing</h3>
+<ol><li>Below 230 kt: GEAR DOWN — <b>three greens</b></li><li>Below 185 kt: FLAPS DOWN</li><li>Approach at 125–135 kt / AoA 4.5° (indexer ●)</li><li>3° glide path: PAPI 2 white + 2 red, or ILS, or FPM on the −3 line</li><li>~30 ft: power IDLE, gentle flare</li><li>Touch down on the main wheels, lower the nose, AIRBRAKE OUT, brakes</li></ol>
+<p><b>Descent rate rule of thumb:</b> on a 3° path, ft/min ≈ ground speed (kt) × 5 → at 130 kt ≈ 650 ft/min.</p>
+
+<h2 id="pattern">11. The traffic pattern (circuit)</h2>
+<svg width="620" height="260" viewBox="0 0 620 260"><g font-family="Arial" font-size="13">
+<rect x="180" y="190" width="260" height="14" fill="#444"/><text x="290" y="222">RUNWAY 27 →→ (land toward the west)</text>
+<path d="M440 197 L560 197 Q590 197 590 167 L590 80 Q590 50 560 50 L120 50 Q90 50 90 80 L90 167 Q90 197 120 197 L180 197" fill="none" stroke="#1957a5" stroke-width="3" stroke-dasharray="6 4"/>
+<text x="250" y="40">DOWNWIND — 1,500 ft above the field, 220 kt, gear &amp; flaps down at the end</text>
+<text x="10" y="130">BASE</text><text x="600" y="130">CROSS-</text><text x="600" y="145">WIND</text>
+<text x="450" y="185">← FINAL</text><text x="10" y="150">turn</text>
+</g></svg>
+<p>Real pattern flying (military "overhead break" in brackets): take off, climb straight ahead, turn 90° (crosswind), turn again (downwind) — parallel to the runway, 1,500 ft above it — gear and flaps down abeam the far end, then a continuous descending 180° turn onto final, rolling out ~1.5 NM from the threshold at ~500 ft. Military jets often arrive "overhead" at 300+ kt along the runway and "break" into a hard 60° bank turn to downwind, using the turn to slow down.</p>
+
+<h2 id="ils">12. Flying an ILS approach</h2>
+<p>The <b>Instrument Landing System</b> lets you land when you cannot see. Two radio beams:</p>
+<ul><li><b>Localizer</b> (from the far end of the runway): left/right of the centreline. Full-scale deflection = 2.5°.</li>
+<li><b>Glide slope</b> (beside the touchdown zone): above/below a 3° path. Full scale = 0.7°. Very sensitive close in!</li></ul>
+<p>On the ADI the <b>magenta bars</b> show where the beams are: <b>fly toward the bars</b>. Vertical bar to the right → turn a few degrees right. Horizontal bar below centre → you are high → descend a little faster. Make small corrections and wait: "chase the needles small". On the HSI, set the course to the runway heading (it happens automatically when you select the ILS with N).</p>
+<p>ILS available: <b>Falcon AB runway 27</b> (I-FAB27) and <b>Meridian runway 34</b> (I-MRD34). Both runways also have <b>PAPI</b> lights: four lights left of the runway. 2 white / 2 red = on path; 3–4 white = high; 3–4 red = low.</p>
+
+<h2 id="nav">13. Navigation</h2>
+<ul><li><b>Heading</b> = where the nose points. <b>Track</b> = where you actually go over the ground (wind pushes you). <b>Bearing</b> = direction to something.</li>
+<li>The HSI <b>cyan needle</b> points TO the selected station; the <b>DME</b> number is the distance in nautical miles (1 NM = 1,852 m). Turn until the needle is at the top → you fly straight to it.</li>
+<li><b>Time = distance ÷ speed:</b> 30 NM at 300 kt = 6 minutes. Military low-level navigation is done exactly like this, with map, compass and stopwatch.</li>
+<li><b>Descent planning:</b> 3 NM of distance per 1,000 ft to lose. From 9,000 ft, start down 27 NM out.</li>
+<li><b>Wind correction:</b> crosswind from the right? Point the nose a few degrees right of the course (crab).</li></ul>
+
+<h2 id="g">14. G-forces and the human body</h2>
+<p>Pulling the stick makes you heavier. At 5 G your 10 kg head weighs 50 kg. Blood drains from the head toward the feet:</p>
+<ul><li>~4–5 G sustained: <b>grey-out</b> (colour fades), then <b>tunnel vision</b>.</li><li>~6–8 G: <b>black-out</b>, then <b>G-LOC</b> — loss of consciousness for 10–30 seconds. Lethal at low level.</li><li>Negative G (pushing): blood to the head, "red-out", very uncomfortable; limit −3 G.</li></ul>
+<p>Fighter pilots wear G-suits and perform the <b>anti-G straining manoeuvre</b> (tensing legs and abdomen, short breaths). The sim darkens your vision if you sustain high G — onset is gradual, just like reality.</p>
+
+<h2 id="emerg">15. Emergencies (simplified)</h2>
+<table>
+<tr><th>Situation</th><th>Immediate actions</th><th>Why</th></tr>
+<tr><td>Stall / departure</td><td>Push, roll level, full power, recover</td><td>Reduce AoA below the critical angle.</td></tr>
+<tr><td>Engine flame-out</td><td>Trade speed for height, aim for ~200 kt (best glide), ENGINE MASTER ON, FUEL PUMP ON, press START (relight) below ~20,000 ft</td><td>Gliding range ≈ 1.5 NM per 1,000 ft. Hydraulics will fade.</td></tr>
+<tr><td>GEN caution</td><td>Generator switch OFF-ON; if not recovered land soon, switch off non-essential items</td><td>The battery will go flat.</td></tr>
+<tr><td>Airspeed unreliable</td><td>Pitot heat ON; fly known pitch &amp; power: e.g. 5° nose-up + 80% N1</td><td>Iced pitot = false IAS. Attitude flying saves you.</td></tr>
+<tr><td>"PULL UP"</td><td>Wings level, pull to ~15° nose up, full power</td><td>Ground proximity warning: terrain closing fast.</td></tr>
+<tr><td>Uncontrollable aircraft</td><td>EJECT (seat must be ARMED)</td><td>A modern seat saves you even at zero speed, zero height.</td></tr>
+</table>
+<div class="note"><b>Aviate – Navigate – Communicate.</b> In every emergency: first keep the aircraft flying, then know where you are going, only then talk/work the checklist.</div>
+
+<h2 id="world">16. The simulated world</h2>
+<p>A 140 × 140 km region at <b>real scale</b> (1 unit = 1 metre), simulated in <b>real time</b> (1 second = 1 second; the K key can speed it up for long transits). Distances, times and fuel burn are therefore real: Falcon AB to Meridian takes about 2 minutes at 250 kt.</p>
+<table>
+<tr><th>Place</th><th>Where (from Falcon AB)</th><th>Notes</th></tr>
+<tr><td><b>Falcon Air Base (LFAB)</b></td><td>origin, elevation ≈ 395 ft</td><td>Military: 3,000 m runway 09/27, ILS 27, PAPI, approach lights, hardened shelters, hangars, tower.</td></tr>
+<tr><td><b>Meridian International (LMRD)</b></td><td>8 NM south-east</td><td>Civil, 2,600 m runway 16/34, ILS 34.</td></tr>
+<tr><td><b>Highland Field (LHGH)</b></td><td>15 NM north-north-west</td><td>1,500 m strip in hills, no ILS. Challenging.</td></tr>
+<tr><td><b>Port Meridian</b></td><td>11 NM east, on the coast</td><td>A city with skyscrapers up to ~180 m. (They are solid!)</td></tr>
+<tr><td>Mountains</td><td>15–25 NM north</td><td>Up to ~6,300 ft with snow caps. North Pass fix.</td></tr>
+<tr><td>Sea</td><td>east of the coastline (~13 NM east)</td><td>Coast with beaches.</td></tr>
+</table>
+<p>Forests, farmland patchwork, towns with houses and streets, highways, trees (many thousands), clouds and lighting by the real sun position for your chosen time of day and latitude (32°N).</p>
+
+<h2 id="limits">17. Limits &amp; numbers to remember</h2>
+<table>
+<tr><th>Item</th><th>Value</th></tr>
+<tr><td>Rotate (take-off)</td><td>130 kt, 10° pitch</td></tr>
+<tr><td>Max gear-down speed</td><td>230 kt</td></tr>
+<tr><td>Flaps MID / DOWN max</td><td>230 kt / 185 kt</td></tr>
+<tr><td>Approach speed</td><td>125–135 kt, AoA 4.5°</td></tr>
+<tr><td>Touchdown</td><td>~115–120 kt, &lt; 600 ft/min (gear limit)</td></tr>
+<tr><td>Stall (1 G)</td><td>≈118 kt clean, ≈100 kt full flap</td></tr>
+<tr><td>Never exceed (Vne)</td><td>560 kt IAS</td></tr>
+<tr><td>Load factor</td><td>+8 G / −3 G</td></tr>
+<tr><td>Best glide (engine out)</td><td>≈ 200 kt clean</td></tr>
+<tr><td>Fuel</td><td>1,300 kg max, FUEL LOW 180 kg</td></tr>
+</table>
+
+<h2 id="practice">18. A practice plan</h2>
+<ol>
+<li><b>Lesson 1:</b> cockpit tour &amp; start-up. Hover over everything. Repeat until you can do it without the instructor box.</li>
+<li><b>Lesson 2:</b> take-off and climb. Practise trimming.</li>
+<li><b>Lesson 3:</b> straight &amp; level, turns at 30° and 60°, climbs, descents, stalls. Then loops and rolls.</li>
+<li><b>Lesson 4:</b> ILS landing. Do it 10 times. Then turn the HUD off (H) and land with only the panel instruments.</li>
+<li><b>Patterns:</b> take off from runway 27 and fly the visual circuit (section 11) back to land.</li>
+<li><b>Lesson 5:</b> navigation to Meridian. Then plan your own: Highland Field in the mountains, or a low-level tour of the coast at 500 ft and 360 kt (watch the radar altimeter!).</li>
+<li><b>Weather:</b> add wind (crosswind landings!), low cloud base and low visibility for real instrument flying.</li>
+</ol>
+<p class="small">Kestrel Flight Trainer — an educational simulator. All aircraft data are representative of the advanced jet trainer class, not of a specific type.</p>
+</body>
+</html>
